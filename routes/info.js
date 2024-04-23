@@ -3,7 +3,7 @@ import {getMovies, addMovie, updateMovie, deleteMovie} from "../controllers/info
 
 const router = express.Router();
 
-router.route("/").get(getMovies)
+router.route("/").get(getMovies);
 router.route("/add").post(addMovie,(req,res)=>{
     res.redirect("/");
 })

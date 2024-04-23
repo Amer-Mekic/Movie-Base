@@ -26,7 +26,7 @@ async function checkIfExists () {
 const getMovies = asyncHandler( async (req, res) => {
     var movies = await checkIfExists();
     console.log(movies);
-    res.status(200).json({movies});
+    res.status(200).render("index.ejs", {movies});
 });
 
 const addMovie = asyncHandler( async (req, res) => {
