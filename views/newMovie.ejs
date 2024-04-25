@@ -1,0 +1,42 @@
+<%-include('partials/header.ejs')%>
+<div>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark px-5 fs-5" role="navigation">
+        <div class="container-fluid">
+            <h1 class="honk pt-2">MovieBase</h1>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+            <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+              <li class="nav-item">
+                <a class="nav-link" href="/home">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/add-movie">Add Movie</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+</div>
+<% if(locals.error) {%>
+    <div class="container d-flex justify-content-center alert-container">
+        <div class="alert alert-warning" role="alert">
+            <%= error %>
+        </div>
+    </div>
+<% } else{ %>
+<div class="container">
+    <div class="d-flex justify-content-center vertical-center">
+    <form action="/add" method="post">
+        <input type="text" name="title" placeholder="Enter movie title" required>
+        <input type="number" name="year" placeholder="Enter release year" required>
+        <button type="submit">Add</button>
+    </form>
+    </div>
+</div>
+<% } %>
+<%-include('partials/footer.ejs')%>

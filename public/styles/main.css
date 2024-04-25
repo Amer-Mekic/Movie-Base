@@ -43,3 +43,66 @@
       "MORF" 15,
       "SHLN" 50;
 }
+
+.poster{
+  max-width: 100%;
+  max-height: 250px;
+}
+
+.hl{
+  color: #ffc107;
+}
+
+.rating-year-grid{
+  display: grid;
+  grid-template-columns: 25px 25px 100px 50px;
+  grid-template-rows: 25px;
+  column-gap: 5px;
+  margin-bottom: 3px;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-variant: normal;
+  font-size: 14px;
+}
+
+.item{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.svg-div{
+  grid-column-start: 1;
+  grid-column-end: 2;
+  width: 25px;
+  height:25px;
+}
+
+.rating{
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+
+.year{
+  grid-column-start: 4;
+  grid-column-end: 5;
+}
+
+.imdb{
+  height: 25px;
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.alert-container{
+  min-height: 50%;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+}

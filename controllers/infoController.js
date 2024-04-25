@@ -29,6 +29,10 @@ const getMovies = asyncHandler( async (req, res) => {
     res.status(200).render("index.ejs", {movies});
 });
 
+const getMovieForm = asyncHandler(async (req, res) => {
+    res.render("newMovie.ejs");
+});
+
 const addMovie = asyncHandler( async (req, res) => {
     const title = req.body.title;
     const year = req.body.year;
@@ -61,13 +65,12 @@ const addMovie = asyncHandler( async (req, res) => {
     }
     catch(err){
         console.log(err);
-        /*const movies = await checkIfExists();
-        res.render("index.ejs", {
-        movies: movies,
+        const movies = await checkIfExists();
+        res.render("newMovie.ejs", {
         error: "Movie has already been added, try again.",
-      });*/
+      });
     }
-    res.status(200);
+    res.status(200).redirect("/");
 });
 
 const updateMovie = asyncHandler(async (req, res) => {
@@ -79,7 +82,7 @@ const updateMovie = asyncHandler(async (req, res) => {
     catch(error){
         throw new Error({message: "An error occurred while trying to fetch resource from database, try again later"});
     }
-    const input = "Ed Edd and Eddy";
+    const input = "Paranormal investigators Ed and Lorraine Warren work to help a family terrorized by a dark presence.";
     //const input = prompt("Write new plot:", plot);
     try{
     const updateDB = await db.query("UPDATE watched_movies SET plot=$1 WHERE title=$2", [input||plot, title]);
@@ -102,6 +105,7 @@ const deleteMovie = asyncHandler(async (req, res) => {
 });
 
 export {getMovies};
+export {getMovieForm};
 export {addMovie};
 export {updateMovie};
 export {deleteMovie};

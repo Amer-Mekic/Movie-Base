@@ -1,13 +1,12 @@
 import express from "express";
-import {getMovies, addMovie, updateMovie, deleteMovie} from "../controllers/infoController.js";
+import {getMovies, getMovieForm, addMovie, updateMovie, deleteMovie} from "../controllers/infoController.js";
 
 const router = express.Router();
 
 router.route("/").get(getMovies);
-router.route("/add").post(addMovie,(req,res)=>{
-    res.redirect("/");
-})
-router.route("/update/:id").post(updateMovie,(req,res)=>{
+router.route("/add-movie").get(getMovieForm);
+router.route("/add").post(addMovie);
+router.route("/update").post(updateMovie,(req,res)=>{
     res.redirect("/");
 });
 router.route("/delete/:id").post(deleteMovie, (req,res)=>{
