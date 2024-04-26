@@ -4,8 +4,7 @@ import {getMovies, getMovieForm, addMovie, updateMovie, deleteMovie} from "../co
 const router = express.Router();
 
 router.route("/").get(getMovies);
-router.route("/add-movie").get(getMovieForm);
-router.route("/add").post(addMovie);
+router.route("/add-movie").get(getMovieForm).post(addMovie);
 router.route("/update").post(updateMovie,(req,res)=>{
     res.redirect("/");
 });

@@ -1,4 +1,5 @@
 <%-include('partials/header.ejs')%>
+<body class="bg-dark">
 <div>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark px-5 fs-5" role="navigation">
         <div class="container-fluid">
@@ -9,7 +10,7 @@
           <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
             <ul class="navbar-nav ms-auto mb-2 mb-md-0">
               <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/" aria-current="page">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="/add-movie">Add Movie</a>
@@ -27,12 +28,12 @@
 </div>
 <div class="container">
   <% if(!locals.movies) { %>
-    <h1 class="text-body-emplasis text-white">Welcome to MovieBase,<br>Database of th movies you've watched.</h1>
+    <h1 class="text-body-emplasis text-white">Welcome to MovieBase,<br>Database of the movies you've watched.</h1>
     <h2 class="text-white">Go to 'Add Movie' in the navigation bar to start keeping the track of watched movies!</h2>
   <% } else { %>
   <div class="row row-cols-1 row-cols-md-3 g-4 mt-3">
     <% movies.forEach((movie) => { %>
-    <div class="col">
+    <div class="col d-flex justify-content-center">
       <div class="card" style="max-width: 250px;">
         <img src="<%=movie.poster%>" class="card-img-top img-thumbnail poster" alt="<%=movie.title%> poster">
         <div class="card-body">
@@ -49,7 +50,7 @@
         </div>
       </div>
     </div>
+    <% }); }%>
   </div>
-  <% }); }%>
 </div>
 <%-include('partials/footer.ejs')%>

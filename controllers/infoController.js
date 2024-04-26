@@ -25,7 +25,6 @@ async function checkIfExists () {
 
 const getMovies = asyncHandler( async (req, res) => {
     var movies = await checkIfExists();
-    console.log(movies);
     res.status(200).render("index.ejs", {movies});
 });
 
@@ -36,41 +35,45 @@ const getMovieForm = asyncHandler(async (req, res) => {
 const addMovie = asyncHandler( async (req, res) => {
     const title = req.body.title;
     const year = req.body.year;
-    if(!title){
-        res.status(400);
-        throw new Error("Must Enter valid title!");
-    }
     try{
     var response = await axios.get(`http://www.omdbapi.com/?t=${title}&y=${year}&apikey=${process.env.API_KEY}`);
+    if(response.data.Error){
+        return res.render("newMovie.ejs", {
+            error: response.data.Error,
+        });
     }
-    catch(err){
-        throw new Error("Enter valid title and year. Check if your API key is active and verify internet connection");
+    else{
+        var TITLE = response.data.Title;
+        var YEAR = response.data.Year;
+        var RATING = response.data.imdbRating || 0;
+        var PLOT = response.data.Plot;
     }
-    const TITLE = response.data.Title;
-    const YEAR = response.data.Year;
-    const RATING = response.data.imdbRating || 0;
-    const PLOT = response.data.Plot;
-    try{
-    var posta = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY2}&query=${TITLE}`);
+    } catch(err){
+        throw new Error("Error fetching resource. Check Interet or API key.")
     }
-    catch(error){
-        throw new Error("Error trying to get movie poster. Check your internet connection and try again");
+    if(db.query("SELECT EXISTS(SELECT 1 FROM watched_movies WHERE title=$1)",[TITLE])==true){
+        return res.render("newMovie.ejs", {
+            error: "Movie has already been added, try again.",
+        });
     }
-    const poster = posta.data.results[0].poster_path;
-    console.log(posta.data.results[0].poster_path);
-    const POSTER = 'http://image.tmdb.org/t/p/w500'+poster;
-
-    try{
-        await db.query("INSERT INTO watched_movies (title, release_year, imdb_rating, plot, poster) VALUES ($1, $2, $3, $4, $5)", [TITLE, YEAR, RATING, PLOT, POSTER]); 
+    else{
+        try{
+            var posta = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY2}&query=${TITLE}`);
+            var poster = posta.data.results[0].poster_path;
+            var POSTER = 'http://image.tmdb.org/t/p/w500'+poster;
+            }
+            catch(error){
+                throw new Error("Error trying to get movie poster. Check your internet connection and try again");
+            }
+        
+            try{
+                await db.query("INSERT INTO watched_movies (title, release_year, imdb_rating, plot, poster) VALUES ($1, $2, $3, $4, $5)", [TITLE, YEAR, RATING, PLOT, POSTER]); 
+            }
+            catch(err){
+                throw new Error("Error inserting movie into database.");
+            }
     }
-    catch(err){
-        console.log(err);
-        const movies = await checkIfExists();
-        res.render("newMovie.ejs", {
-        error: "Movie has already been added, try again.",
-      });
-    }
-    res.status(200).redirect("/");
+    res.redirect("/");
 });
 
 const updateMovie = asyncHandler(async (req, res) => {
