@@ -28,6 +28,13 @@ const getMovies = asyncHandler( async (req, res) => {
     res.status(200).render("index.ejs", {movies});
 });
 
+const getMovie = asyncHandler(async (req, res) => {
+    const index = parseInt(req.params.id);
+    var movies = await checkIfExists();
+    const movie = movies[index];
+    res.render("movieDetails.ejs", {movie,  index});
+});
+
 const getMovieForm = asyncHandler(async (req, res) => {
     res.render("newMovie.ejs");
 });
@@ -77,34 +84,37 @@ const addMovie = asyncHandler( async (req, res) => {
 });
 
 const updateMovie = asyncHandler(async (req, res) => {
-    const title = req.body.title;
+    const id = parseInt(req.params.id);
+    const newPlot = req.body.movieUpdated;
     try{
-    const plotQuery = await db.query("SELECT plot FROM watched_movies WHERE title=$1", [title]);
-    const plot = plotQuery.rows;
+    const movies = await checkIfExists();
+    var movie = movies[id];
     }
     catch(error){
         throw new Error({message: "An error occurred while trying to fetch resource from database, try again later"});
     }
-    const input = "Paranormal investigators Ed and Lorraine Warren work to help a family terrorized by a dark presence.";
-    //const input = prompt("Write new plot:", plot);
+    var title = movie.title;
     try{
-    const updateDB = await db.query("UPDATE watched_movies SET plot=$1 WHERE title=$2", [input||plot, title]);
+        await db.query("UPDATE watched_movies SET plot=$1 WHERE title=$2", [newPlot, title]);
     }
     catch(error){
         throw new Error({message: "Error while updating movie"});
     }
-    res.status(200);
+    res.status(200).redirect("/view-details/"+id);
 });
 
 const deleteMovie = asyncHandler(async (req, res) => {
-    const title = req.body.title;
+    const id = parseInt(req.params.id);
     try{
-        await db.query("DELETE FROM watched_movies WHERE title=$1", [title]);
+        var movies = await checkIfExists();
+        var movie = movies[id];
+        var title = movie.title;
+        await db.query("DELETE FROM watched_movies WHERE title=$1",[title]);
     }
     catch(error){
         throw new Error({message: "Error occurred in deleting record, try again later!"});
     }
-    res.status(200);
+    res.status(200).redirect("/");
 });
 
 export {getMovies};
@@ -112,3 +122,4 @@ export {getMovieForm};
 export {addMovie};
 export {updateMovie};
 export {deleteMovie};
+export {getMovie};

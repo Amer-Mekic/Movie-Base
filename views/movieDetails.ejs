@@ -1,0 +1,70 @@
+<%-include('partials/header.ejs')%>
+<body class="bg-dark" style="padding-bottom: 0;">
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <form action="/update/<%=index%>" method="post">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle"><%=movie.title%></h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" name="movieUpdated" rows="9" required><%= movie.plot %></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+       </form>
+      </div>
+<div>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark px-5 fs-5" role="navigation">
+        <div class="container-fluid">
+            <h1 class="honk pt-2">MovieBase</h1>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+            <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/add-movie">Add Movie</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container" style="display: flex; height:100vh; align-items: center; justify-content: center;">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col d-flex justify-content-center">
+            <img src="<%=movie.poster%>" alt="<%=movie.title%> poster" style="max-height: 400px; max-width: 400px;">
+        </div>
+        <div class="col">
+            <h1 class="text-white font-weight-bold my-2" ><%= movie.title %><br></h1>
+            <p class="font-weight-light text-white my-4">Overview :<br><%= movie.plot %></p>
+            <div class="row">
+                <div class="col-2">
+                <button type="button" class="btn btn-outline-info mt-3" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" style="width:80px">
+                    Edit
+                </button>
+                </div>
+                <div class="col-10">
+                <form action="/delete/<%= index %>" method="post" style="margin: 0; padding: 0;">
+                    <button type="submit" class="btn btn-outline-danger mt-3" style="width:80px">Delete</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%-include('partials/footer.ejs')%>
