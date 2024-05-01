@@ -39,6 +39,10 @@ const getMovieForm = asyncHandler(async (req, res) => {
     res.render("newMovie.ejs");
 });
 
+const getAboutPage = asyncHandler(async (req,res) => {
+    res.render("about.ejs");
+});
+
 const addMovie = asyncHandler( async (req, res) => {
     const title = req.body.title;
     const year = req.body.year;
@@ -123,3 +127,4 @@ export {addMovie};
 export {updateMovie};
 export {deleteMovie};
 export {getMovie};
+export {getAboutPage};
