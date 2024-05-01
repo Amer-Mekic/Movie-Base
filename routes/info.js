@@ -1,8 +1,10 @@
 import express from "express";
 import {getMovies, getMovie, getMovieForm, addMovie, updateMovie, deleteMovie, getAboutPage} from "../controllers/infoController.js";
 
+// Create an Express router
 const router = express.Router();
 
+// Defined routes and their corresponding handlers
 router.route("/").get(getMovies)
 router.route("/about").get(getAboutPage);
 router.route("/view-details/:id").get(getMovie);
